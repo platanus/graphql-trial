@@ -1,7 +1,5 @@
 <template>
-  <div class="flex content-center items-stretch">
-    <div class="ml-64 self-auto"></div>
-    <div class="ml-64 self-auto"></div>
+  <div class="posts-class flex content-center items-stretch">
     <div class="mt-8 text-left flex-1">
       <p class="w-full py-2">Create Post</p>
       <div class="w-full py-2">
@@ -42,8 +40,6 @@
         </tr>
       </tbody>
     </table>
-    <div class="mr-64 self-auto"></div>
-    <div class="mr-64 self-auto"></div>
   </div>
 </template>
 <script>
@@ -132,3 +128,9 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.posts-class {
+  margin-left: 20%;
+  margin-right: 20%;
+}
+</style>
