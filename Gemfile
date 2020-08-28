@@ -1,11 +1,14 @@
 source 'https://rubygems.org'
 
 gem 'aws-sdk-s3', '~> 1.0'
+gem 'batch-loader'
 gem 'bootsnap', require: false
 gem 'data_migrate'
 gem 'devise'
 gem 'devise-i18n'
 gem 'enumerize'
+gem 'graphiql-rails'
+gem 'graphql'
 gem 'jbuilder', '~> 2.7'
 gem 'pg'
 gem 'power-types'
@@ -54,3 +57,5 @@ end
 group :production, :development, :test do
   gem 'tzinfo-data'
 end
+
+gem 'graphiql-rails', group: :development
