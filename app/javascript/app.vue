@@ -2,27 +2,16 @@
   <div class="font-family:Roboto mb-4">
     <p>{{ message }}</p>
     <div class="bg-white bg-opacity-200">
-      <button
+      <router-link
+        to="users"
+        tag="button"
         class="border bg-gray-200 rounded-lg mx-3 px-4 py-2 hover:bg-gray-400"
-        @click="enableQuery"
-      >
-        Queries
-      </button>
-      <button
-        class="border bg-gray-200 rounded-lg mx-2 px-3 py-2 hover:bg-gray-400"
-        @click="enableMutation"
-      >
-        Mutations
-      </button>
-      <div v-if="querySelected">
-        <router-link to="users">users</router-link>
-        <router-link to="posts">posts</router-link>
-      </div>
-      <div v-if="!querySelected">
-        MUTATIONS
-        <router-link to="users">users</router-link>
-        <router-link to="posts">posts</router-link>
-      </div>
+      >users</router-link>
+      <router-link
+        to="posts"
+        tag="button"
+        class="border bg-gray-200 rounded-lg mx-3 px-4 py-2 hover:bg-gray-400"
+      >posts</router-link>
     </div>
     <div>
       <router-view></router-view>
@@ -34,16 +23,16 @@
 import gql from "graphql-tag";
 
 export default {
-  data: function() {
+  data: function () {
     return {
-      message: "GraphQL Basic",
-      querySelected: true
+      message: "GraphQL Basics",
+      querySelected: true,
     };
   },
   computed: {
     mutationEnable() {
       return !this.querySelected;
-    }
+    },
   },
   methods: {
     enableMutation() {
@@ -51,8 +40,8 @@ export default {
     },
     enableQuery() {
       this.querySelected = true;
-    }
-  }
+    },
+  },
 };
 </script>
 
