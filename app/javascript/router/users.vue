@@ -4,16 +4,26 @@
       <p class="w-full py-2">Create User</p>
       <div class="w-full py-2">
         <label class="block text-xs font-medium">Email</label>
-        <input type="text" class="w-full px-3 py-2 border rounded-md" v-model="email" />
+        <input
+          type="text"
+          class="w-full px-3 py-2 border rounded-md"
+          v-model="email"
+        />
       </div>
       <div class="w-full py-2">
         <label class="block text-xs font-medium">Password</label>
-        <input type="text" class="w-full px-3 py-2 border rounded-md" v-model="password" />
+        <input
+          type="text"
+          class="w-full px-3 py-2 border rounded-md"
+          v-model="password"
+        />
       </div>
       <button
         @click="createUser"
         class="border bg-gray-200 rounded-lg mr-auto px-4 py-2 hover:bg-gray-400"
-      >Submit</button>
+      >
+        Submit
+      </button>
     </div>
     <table class="border mt-4 mx-10 flex-1">
       <thead>
@@ -40,7 +50,7 @@
 import gql from "graphql-tag";
 
 const GET_USERS = gql`
-  query {
+  query get_users {
     users {
       id
       email
@@ -52,7 +62,7 @@ const GET_USERS = gql`
 `;
 
 const CREATE_USER = gql`
-  mutation($input: CreateUserMutationInput!) {
+  mutation createUserMutation($input: CreateUserMutationInput!) {
     createUser(input: $input) {
       user {
         id
@@ -68,11 +78,11 @@ export default {
   data() {
     return {
       email: "",
-      password: "",
+      password: ""
     };
   },
   apollo: {
-    users: GET_USERS,
+    users: GET_USERS
   },
   methods: {
     createUser() {
@@ -87,29 +97,30 @@ export default {
           variables: {
             input: {
               email,
-              password,
-            },
+              password
+            }
           },
           // Update the cache with the result
           // The query will be updated with the optimistic response
           // and then with the real result of the mutation
           update: (store, { data: { createUser } }) => {
+            // debugger;
             // Read the data from our cache for this query.
             const data = store.readQuery({ query: GET_USERS });
             // Add our tag from the mutation to the end
             data.users.push(createUser.user);
             // Write our data back to the cache.
             store.writeQuery({ query: GET_USERS, data });
-          },
+          }
         })
-        .then((data) => {
+        .then(data => {
           console.log(data);
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

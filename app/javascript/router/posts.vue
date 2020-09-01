@@ -4,20 +4,34 @@
       <p class="w-full py-2">Create Post</p>
       <div class="w-full py-2">
         <label class="block text-xs font-medium">Creator</label>
-        <input type="text" class="w-full px-3 py-2 border rounded-md" v-model="userId" />
+        <input
+          type="text"
+          class="w-full px-3 py-2 border rounded-md"
+          v-model="userId"
+        />
       </div>
       <div class="w-full py-2">
         <label class="block text-xs font-medium">Title</label>
-        <input type="text" class="w-full px-3 py-2 border rounded-md" v-model="title" />
+        <input
+          type="text"
+          class="w-full px-3 py-2 border rounded-md"
+          v-model="title"
+        />
       </div>
       <div class="w-full py-2">
         <label class="block text-xs font-medium">Content</label>
-        <input type="text" class="w-full px-3 py-2 border rounded-md" v-model="content" />
+        <input
+          type="text"
+          class="w-full px-3 py-2 border rounded-md"
+          v-model="content"
+        />
       </div>
       <button
         @click="createPost"
         class="border bg-gray-200 rounded-lg mr-auto px-4 py-2 hover:bg-gray-400"
-      >Submit</button>
+      >
+        Submit
+      </button>
     </div>
     <table class="border mt-4 mx-10 flex-1">
       <thead>
@@ -46,7 +60,7 @@
 import gql from "graphql-tag";
 
 const GET_POSTS = gql`
-  query {
+  query get_posts {
     posts {
       id
       title
@@ -80,11 +94,11 @@ export default {
     return {
       title: "",
       content: "",
-      userId: "",
+      userId: ""
     };
   },
   apollo: {
-    posts: GET_POSTS,
+    posts: GET_POSTS
   },
   methods: {
     createPost() {
@@ -102,8 +116,8 @@ export default {
             input: {
               title,
               content,
-              userId,
-            },
+              userId
+            }
           },
           // Update the cache with the result
           // The query will be updated with the optimistic response
@@ -116,16 +130,16 @@ export default {
             data.posts.push(createPost.post);
             // Write our data back to the cache.
             store.writeQuery({ query: GET_POSTS, data });
-          },
+          }
         })
-        .then((data) => {
+        .then(data => {
           console.log(data);
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
