@@ -4,6 +4,7 @@ module Types
     field :title, String, null: false
     field :content, String, null: false
     field :user, Types::UserType, null: true
+    field :comments, [ModelTypes::CommentType], null: false
 
     def user
       # binding.pry
@@ -12,6 +13,20 @@ module Types
       BatchLoader::GraphQL.for(object.user_id).batch do |user_ids, loader|
         # binding.pry
         User.where(id: user_ids).each { |user| loader.call(user.id, user) }
+      end
+    end
+
+    def comments
+      # binding.pry
+      BatchLoader::GraphQL.for(object.id).batch(default_value: []) do |posts_ids, loader|
+        # binding.pry
+        Comment.where(post_id: posts_ids).each do |comment|
+          # binding.pry
+          loader.call(comment.post_id) do |comment_array|
+            # binding.pry
+            comment_array << comment
+          end
+        end
       end
     end
   end
