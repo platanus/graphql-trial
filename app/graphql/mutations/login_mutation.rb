@@ -16,7 +16,7 @@ class Mutations::LoginMutation < Mutations::BaseMutation
       token = JWT.encode payload, ENV['HMAC_SECRET'], 'HS256'
       return { token: token }
     end
-    { token: nil }
+    GraphQL::ExecutionError.new("User or Password invalid")
   rescue ActiveRecord::RecordInvalid => e
     GraphQL::ExecutionError.new("Invalid input: #{e.record.errors.full_messages.join(', ')}")
   end
