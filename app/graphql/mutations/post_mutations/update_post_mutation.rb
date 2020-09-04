@@ -2,14 +2,15 @@ module Mutations::PostMutations
   class UpdatePostMutation < Mutations::BaseMutation
     null true
 
-    argument :user_id, ID, required: true
+    argument :id, ID, required: true
+    argument :user_id, ID, required: false
     argument :title, String, required: false
     argument :content, String, required: false
 
     field :post, Types::PostType, null: true
 
-    def resolve(user_id:, **args)
-      post = Post.find_by(user_id: user_id)
+    def resolve(id:, **args)
+      post = Post.find(id)
       post.update!(args)
       { post: post }
     rescue ActiveRecord::RecordInvalid => e
