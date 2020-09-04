@@ -125,6 +125,8 @@ GEM
       railties
       sprockets-rails
     graphql (1.11.1)
+    graphql_playground-rails (2.1.0)
+      rails (>= 5.1.0)
     guard (2.16.2)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
@@ -343,6 +345,7 @@ DEPENDENCIES
   faker
   graphiql-rails
   graphql
+  graphql_playground-rails
   guard-rspec
   jbuilder (~> 2.7)
   jwt
