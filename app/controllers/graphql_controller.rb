@@ -10,10 +10,10 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
     context = {
-      # Query context goes here, for example:
-      # current_user: current_user,
+      current_user: get_current_user
     }
     result = GraphqlTrialSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    # set_authentication_cookie(result["data"]["login"]["token"]) if result["data"]["login"]
     render json: result
   rescue StandardError => e
     raise e unless Rails.env.development?
@@ -38,6 +38,18 @@ class GraphqlController < ApplicationController
       {}
     else
       raise ArgumentError, "Unexpected parameter: #{ambiguous_param}"
+    end
+  end
+
+  def set_authentication_cookie(token)
+    cookies[:_graphql_token] = token
+  end
+
+  def get_current_user
+    if request.headers['Authorization']
+      type, token = request.headers['Authorization'].split
+      decoded_token = JWT.decode token, ENV['HMAC_SECRET'], true, { algorithm: 'HS256' }
+      User.find(decoded_token.first["id"])
     end
   end
 
