@@ -1,10 +1,9 @@
-module Types
-  class PostType < Types::BaseObject
+module Types::ModelTypes
+  class CommentType < Types::BaseObject
     field :id, ID, null: false, description: 'identifier'
-    field :title, String, null: false
     field :content, String, null: false
     field :user, Types::UserType, null: true
-    field :comments, [ModelTypes::CommentType], null: false
+    field :post, Types::PostType, null: false
 
     def user
       # binding.pry
@@ -16,17 +15,13 @@ module Types
       end
     end
 
-    def comments
+    def post
       # binding.pry
-      BatchLoader::GraphQL.for(object.id).batch(default_value: []) do |posts_ids, loader|
+      # .batch uses by default a nil match. This means that by default if a post does not have
+      # a user it will match nil with that post.
+      BatchLoader::GraphQL.for(object.post_id).batch(default_value: nil) do |posts_ids, loader|
         # binding.pry
-        Comment.where(post_id: posts_ids).each do |comment|
-          # binding.pry
-          loader.call(comment.post_id) do |comment_array|
-            # binding.pry
-            comment_array << comment
-          end
-        end
+        Post.where(id: posts_ids).each { |post| loader.call(post.id, post) }
       end
     end
   end

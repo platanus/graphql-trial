@@ -25,5 +25,21 @@ module Types
     def post(id:)
       Post.find(id)
     end
+
+    field :comments, [ModelTypes::CommentType], null: false,
+                                                description: "Returns a list of Comments"
+    field :comment, ModelTypes::CommentType, null: true,
+                                             description: "Returns a list of Comments" do
+      argument :id, ID, required: true
+    end
+
+    def comments
+      Comment.all
+    end
+
+    def comment(id:)
+      Comment.find(id)
+    rescue Exception
+    end
   end
 end
