@@ -12,6 +12,11 @@
         tag="button"
         class="border bg-gray-200 rounded-lg mx-3 px-4 py-2 hover:bg-gray-400"
       >posts</router-link>
+      <router-link
+        to="comments"
+        tag="button"
+        class="border bg-gray-200 rounded-lg mx-3 px-4 py-2 hover:bg-gray-400"
+      >commnets</router-link>
     </div>
     <div>
       <router-view></router-view>

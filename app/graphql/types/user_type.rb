@@ -5,9 +5,10 @@ module Types
     field :encrypted_password, String, null: false, description: 'secret password'
     field :email_with_id, String, null: false
     field :posts, [Types::PostType], null: true
+    field :comments, [ModelTypes::CommentType], null: true
 
     def email_with_id
-      "#{object.email}-#{object.id}"
+      "#{object.email} - #{object.id}"
     end
 
     def posts
@@ -22,6 +23,20 @@ module Types
           loader.call(post.user_id) do |post_array|
             # binding.pry
             post_array << post
+          end
+        end
+      end
+    end
+
+    def comments
+      # binding.pry
+      BatchLoader::GraphQL.for(object.id).batch(default_value: []) do |user_ids, loader|
+        # binding.pry
+        Comment.where(user_id: user_ids).each do |comment|
+          # binding.pry
+          loader.call(comment.user_id) do |comment_array|
+            # binding.pry
+            comment_array << comment
           end
         end
       end
