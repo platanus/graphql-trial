@@ -1,5 +1,12 @@
-# Graphql Trial 
+# Graphql Trial
 This is a Rails application, initially generated using [Potassium](https://github.com/platanus/potassium) by Platanus.
+
+## To Run the project
+- Start de docker volumen
+- run:
+    `rails s`
+- to use the `graphql_playground` go to:
+    `localhost:your_port/graphql_playground`
 
 ## Local installation
 
